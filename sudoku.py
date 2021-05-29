@@ -55,13 +55,12 @@ def solve(board):
 					board[row][col] = number
 					print('doing')
 					print_board(board)
-				else:
-					continue
 					
-				if solve(board):
-					return True
-				board[row][col] = 0
-	retur False
+					if solve(board):
+						return True
+	
+					boarld[row][col] = 0
+	return False
 			
 
 	#print_board(board)

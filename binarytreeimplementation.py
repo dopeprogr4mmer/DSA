@@ -1,3 +1,4 @@
+from collections import deque
 class Tree:
 	def __init__(self,value = None):
 		self.value = value
@@ -101,21 +102,133 @@ class Tree:
 		else:
 			return (self.left.postorder() + self.right.postorder() +[self.value])
 
+	def levelorder(self):
+		q = deque()
+		if self.is_empty():
+			return []
+		else:
+			q.append(self)
+		def lol(q, l=[]):
+			if not q:
+				#print(l)
+				return l
+			x = q.popleft()
+			#print(x.value)
+			l.append(x.value)
+			if not x.left.is_empty():
+				q.append(x.left)
+			if not x.right.is_empty():
+				q.append(x.right)
+			return lol(q, l)
+		return lol(q, [])
+
+	def topview(self):
+		q = deque()
+		#tv[0]=self.value
+		if self.is_empty():
+			return []
+		else:
+			q.append((0, self))
+		def view(q, tv={}):
+			if not q:
+				return tv
+			x = q.popleft()
+			index, node = x[0], x[1]
+			if not index in tv.keys():
+				tv[index]=node.value
+				#print(tv)
+			if not node.left.is_empty():
+				q.append((index-1, node.left))
+			if not node.right.is_empty():
+				q.append((index+1, node.right))
+			return view(q, tv)
+		view_dict = view(q)
+		#print(x)
+		top_view = sorted(view_dict.items(), key=lambda x: x[0])
+		#print(x)
+		top_view = [i[1] for i in top_view]
+		return top_view
+
+
+	def bottomview(self):
+		if self.is_empty():
+			return []
+		q = deque()
+		q.append((0, self))
+		def view(q, bv={}):
+			"""If there are multiple bottom-most nodes 
+			for a horizontal distance from root, 
+			then print the later one in level traversal"""
+			if not q:
+				return bv
+			z = q.popleft()
+			index, node = z[0], z[1]
+			#if not index in bv:			#diff bw top/bottom view
+			bv[index] = node.value
+			if not node.left.is_empty():
+				q.append((index-1, node.left))
+			if not node.right.is_empty():
+				q.append((index+1, node.right))
+			return view(q, bv)
+		view_dict = view(q)
+		bottom_view = sorted(view_dict.items(), key=lambda x: x[0])
+		print(bottom_view)
+		bottom_view = [i[1] for i in bottom_view]
+		print(bottom_view)
+
+
+	def leftview(self):
+		if self.is_empty():
+			return []
+		depth, shift = 0, 0
+		q = deque()
+		q.append((depth, shift, self))
+		def view(q, lv={}):
+			#print(lv)
+			if not q:
+				return lv
+			y = q.pop()
+			depth, shift, node = y[0], y[1], y[2]
+			if depth in lv.keys():
+				if shift>lv[depth][0]:				#> for rightview
+					lv[depth]=(shift, node.value)
+			else:
+				lv[depth]=(shift, node.value)
+			if not node.left.is_empty():
+				q.append((depth+1, shift-1, node.left))
+			if not node.right.is_empty():
+				q.append((depth+1, shift+1, node.right))
+			return view(q, lv)
+		view_dict = view(q)
+		#print(view_dict)
+		left_view = [view_dict[z] for z in view_dict]
+		#print(left_view)
+		left_view = [i[1] for i in left_view]
+		return left_view
+
+
+
+
 	def __str__(self):
-		return str(self.inorder())
+		return str(self.topview())
 
 
-u = Tree()
-print(u.find(5))
-t = Tree(7)
-t.insert(2)
-t.insert(4)
-t.insert(5)
-t.insert(3)
-t.insert(11)
-t.insert(8)
-print(t.delete(21))
-print(u.delete(2))
-print(t.inorder())
-print(t.preorder())
-print(t.postorder())
+#u = Tree()
+#print(u.find(5))
+t = Tree(100)
+t.insert(50)
+t.insert(30)
+t.insert(80)
+t.insert(70)
+t.insert(90)
+t.insert(85)
+t.insert(95)
+#t.insert(1)
+#print(t.delete(21))
+#print(u.delete(2))
+#print(t.preorder())
+#print(t.postorder())
+#print(t)
+#print(t.topview())
+print(t.leftview())
+
