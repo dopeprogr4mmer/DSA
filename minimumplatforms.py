@@ -22,9 +22,19 @@ class Solution:
 arr = [900, 940, 950, 1100, 1500, 1800]
 dep = [910, 1200, 1120, 1130, 1900, 2000]
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 #solution = Solution()
 #solution.minimumPlatform(6, arr, dep)
 l = [i for i in range(200000)]
 for i in range(200000):
     #l.append(i)
     temp_l = [j for j in range(i,i+10000)]
+=======
+solution = Solution()
+solution.minimumPlatform(6, arr, dep)
+>>>>>>> d86366dc91ea42926b2be1e049e46fb03f518c05
+=======
+solution = Solution()
+solution.minimumPlatform(6, arr, dep)
+>>>>>>> d86366dc91ea42926b2be1e049e46fb03f518c05

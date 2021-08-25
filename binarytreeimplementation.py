@@ -1,4 +1,10 @@
-from collections import deque
+<<<<<<< HEAD
+<<<<<<< HEAD
+from collections import deque, defaultdict
+=======
+>>>>>>> d86366dc91ea42926b2be1e049e46fb03f518c05
+=======
+>>>>>>> d86366dc91ea42926b2be1e049e46fb03f518c05
 class Tree:
 	def __init__(self,value = None):
 		self.value = value
@@ -102,12 +108,18 @@ class Tree:
 		else:
 			return (self.left.postorder() + self.right.postorder() +[self.value])
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+
+
 	def levelorder(self):
 		q = deque()
 		if self.is_empty():
 			return []
 		else:
 			q.append(self)
+		
 		def lol(q, l=[]):
 			if not q:
 				#print(l)
@@ -177,6 +189,34 @@ class Tree:
 		print(bottom_view)
 
 
+	def verticalOrder(self): 
+		if self == None:
+		    return []
+		output_list = []
+		#i = 0
+		q = [(0, self)]
+		d = defaultdict(list)
+		def sol(q, d):
+		    if len(q)==0:
+		        return d
+		    z = q.pop(0)
+		    d[z[0]].append(z[1].value)
+		    if z[1].left!=None:
+		        q.append((z[0]-1, z[1].left))
+		    if z[1].right!=None:
+		        q.append((z[0]+1, z[1].right))
+		    return sol(q, d)
+		
+		vo = sol(q, d)
+		if len(vo)!=0:
+		    vo = sorted(vo.items(), key=lambda x: x[0])
+		    op = [i[1] for i in vo]
+		    for i in op:
+		        output_list+=i
+		    return output_list
+		return []
+
+
 	def leftview(self):
 		if self.is_empty():
 			return []
@@ -190,7 +230,7 @@ class Tree:
 			y = q.pop()
 			depth, shift, node = y[0], y[1], y[2]
 			if depth in lv.keys():
-				if shift>lv[depth][0]:				#> for rightview
+				if shift<lv[depth][0]:				#> for rightview
 					lv[depth]=(shift, node.value)
 			else:
 				lv[depth]=(shift, node.value)
@@ -206,17 +246,33 @@ class Tree:
 		left_view = [i[1] for i in left_view]
 		return left_view
 
+	def left_view_dfs(self, level=1, max_level=[0]):
+		if self.is_empty():
+			return 
 
+		if max_level[0]<level:
+			print(self.value)
+			#return_list.append(self.value)
+			max_level[0]=level
+
+		self.left.left_view_dfs(level+1, max_level)
+		self.right.left_view_dfs(level+1, max_level)
 
 
 	def __str__(self):
 		return str(self.topview())
 
 
+	#print(dist)
+	#return dist
+
+
+
+
 #u = Tree()
 #print(u.find(5))
 t = Tree(100)
-t.insert(50)
+t.insert(50) 
 t.insert(30)
 t.insert(80)
 t.insert(70)
@@ -230,5 +286,33 @@ t.insert(95)
 #print(t.postorder())
 #print(t)
 #print(t.topview())
-print(t.leftview())
+#print(t.verticalOrder())
+#print(t.left_view_dfs())
+#distance(t, 30, 70)
+#t.zigzag()
+=======
+=======
+>>>>>>> d86366dc91ea42926b2be1e049e46fb03f518c05
+	def __str__(self):
+		return str(self.inorder())
 
+
+u = Tree()
+print(u.find(5))
+t = Tree(7)
+t.insert(2)
+t.insert(4)
+t.insert(5)
+t.insert(3)
+t.insert(11)
+t.insert(8)
+print(t.delete(21))
+print(u.delete(2))
+print(t.inorder())
+print(t.preorder())
+<<<<<<< HEAD
+print(t.postorder())
+>>>>>>> d86366dc91ea42926b2be1e049e46fb03f518c05
+=======
+print(t.postorder())
+>>>>>>> d86366dc91ea42926b2be1e049e46fb03f518c05
